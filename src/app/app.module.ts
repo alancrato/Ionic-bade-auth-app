@@ -8,6 +8,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpModule } from "@angular/http";
 import { JwtClientProvider } from '../providers/jwt-client';
 import { IonicStorageModule } from "@ionic/storage";
+import { JwtHelper } from "angular2-jwt";
+import { AuthProvider } from '../providers/auth';
 
 @NgModule({
   declarations: [
@@ -28,8 +30,10 @@ import { IonicStorageModule } from "@ionic/storage";
   providers: [
     StatusBar,
     SplashScreen,
+    JwtHelper,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    JwtClientProvider
+    JwtClientProvider,
+    AuthProvider
   ]
 })
 export class AppModule {}

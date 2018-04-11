@@ -4,6 +4,7 @@ import { Platform, MenuController, Nav } from 'ionic-angular';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { AuthProvider } from "../providers/auth";
 
 @Component({
   templateUrl: 'app.html'
@@ -12,14 +13,15 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: string = 'LoginPage';
-
   pages: Array<{title: string, component: string}>;
+  user:any;
 
   constructor(
     public platform: Platform,
     public menu: MenuController,
     public statusBar: StatusBar,
-    public splashScreen: SplashScreen
+    public splashScreen: SplashScreen,
+    public auth:AuthProvider
   ) {
     this.initializeApp();
 
@@ -31,6 +33,9 @@ export class MyApp {
   }
 
   initializeApp() {
+    this.auth.user().then(user => {
+      this.user = user;
+    });
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

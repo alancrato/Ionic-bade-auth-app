@@ -3,6 +3,7 @@ import { JwtCredentials } from "../models/jwt-credentials";
 import 'rxjs/add/operator/map';
 import { Response, Http } from "@angular/http";
 import { Storage } from "@ionic/storage";
+import { JwtHelper } from "angular2-jwt";
 
 /*
   Generated class for the JwtClientProvider provider.
@@ -14,12 +15,43 @@ import { Storage } from "@ionic/storage";
 export class JwtClientProvider {
 
   private _token = null;
+  private _payload = null;
 
   constructor(
       public http: Http,
-      public storage: Storage
+      public storage: Storage,
+      public jwtHelper: JwtHelper,
   ) {
-    console.log('Hello JwtClientProvider Provider');
+    this.getToken();
+    this.getPayload().then((payload) => {
+        console.log(payload);
+    });
+  }
+
+  getPayload(): Promise<Object>{
+      return new Promise((resolve) => {
+          if(this._payload){
+              resolve(this._payload);
+          }
+          this.getToken().then((token) => {
+              if(token){
+                  this._payload = this.jwtHelper.decodeToken(token);
+              }
+              resolve(this._payload);
+          })
+      });
+  }
+
+  getToken(): Promise<string>{
+      return new Promise((resolve) => {
+         if(this._token){
+            resolve(this._token);
+         }
+          this.storage.get('token').then((token) => {
+              this._token = token;
+              resolve(this._token);
+          });
+      });
   }
 
   accessToken(jwtCredentials: JwtCredentials): Promise<string>{
@@ -29,9 +61,6 @@ export class JwtClientProvider {
           let token = response.json().token;
           this._token = token;
           this.storage.set('token',this._token);
-          this.storage.get('token').then((token) => {
-             console.log(token);
-          });
           return token;
         });
   }

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, MenuController, NavController, NavParams } from 'ionic-angular';
 import 'rxjs/add/operator/toPromise';
-import {JwtClientProvider} from "../../providers/jwt-client";
+import { JwtClientProvider } from "../../providers/jwt-client";
+import { AuthProvider } from "../../providers/auth";
 
 /**
  * Generated class for the LoginPage page.
@@ -21,21 +22,27 @@ export class LoginPage {
   password:string;
 
   constructor(
+      public menu: MenuController,
       public navCtrl: NavController,
       public navParams: NavParams,
-      private jwtClient: JwtClientProvider
+      private jwtClient: JwtClientProvider,
+      private auth:AuthProvider,
   ) {}
 
-  ionViewDidLoad() {
-    console.log('LoginPage');
+  ionViewWilEnter() {
+    this.menu.swipeEnable(false);
+  }
+
+  ionViewDidLeave(){
+    this.menu.swipeEnable(true);
   }
 
   login(){
-    this.jwtClient
+    /*this.jwtClient
       .accessToken({email: this.email, password: this.password})
       .then((token) => {
         console.log(token)
-    });
+    });*/
   }
 
 }

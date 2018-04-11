@@ -15,6 +15,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class HomePage {
 
+  catId: any = 1;
+
   constructor(
       public navCtrl: NavController,
       public navParams: NavParams
@@ -23,6 +25,14 @@ export class HomePage {
 
   ionViewDidLoad() {
     console.log('HomePage');
+  }
+
+  catP() {
+    if(this.catId == 1){
+      return this.catId;
+    }
+    return 'error';
+
   }
 
 }
