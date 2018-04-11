@@ -1,6 +1,5 @@
 
-export interface JwtCredentials
-{
+export interface JwtCredentials {
     email;
     password;
 }

@@ -3,24 +3,15 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
-import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
-import { ItemDetailsPage } from '../pages/item-details/item-details';
-import { ListPage } from '../pages/list/list';
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { LoginPage } from "../pages/login/login";
 import { HttpModule } from "@angular/http";
-import { JwtClientProvider } from '../providers/jwt-client/jwt-client';
+import { JwtClientProvider } from '../providers/jwt-client';
 import { IonicStorageModule } from "@ionic/storage";
 
 @NgModule({
   declarations: [
-    MyApp,
-    HelloIonicPage,
-    ItemDetailsPage,
-    ListPage,
-    LoginPage
+    MyApp
   ],
   imports: [
     HttpModule,
@@ -32,11 +23,7 @@ import { IonicStorageModule } from "@ionic/storage";
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    HelloIonicPage,
-    ItemDetailsPage,
-    ListPage,
-    LoginPage
+    MyApp
   ],
   providers: [
     StatusBar,

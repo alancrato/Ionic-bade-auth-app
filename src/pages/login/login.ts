@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Http } from "@angular/http";
 import 'rxjs/add/operator/toPromise';
-import {JwtClientProvider} from "../../providers/jwt-client/jwt-client";
+import {JwtClientProvider} from "../../providers/jwt-client";
 
 /**
  * Generated class for the LoginPage page.

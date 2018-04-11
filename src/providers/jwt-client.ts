@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { JwtCredentials } from "../../models/jwt-credentials";
+import { JwtCredentials } from "../models/jwt-credentials";
 import 'rxjs/add/operator/map';
 import { Response, Http } from "@angular/http";
 import { Storage } from "@ionic/storage";
