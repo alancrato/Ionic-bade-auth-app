@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, MenuController, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, MenuController, NavController, NavParams, ToastController} from 'ionic-angular';
 import 'rxjs/add/operator/toPromise';
 import { JwtClientProvider } from "../../providers/jwt-client";
 import { AuthProvider } from "../../providers/auth";
@@ -26,6 +26,7 @@ export class LoginPage {
   constructor(
       public menu: MenuController,
       public navCtrl: NavController,
+      public toastCtrl: ToastController,
       public navParams: NavParams,
       private jwtClient: JwtClientProvider,
       private auth:AuthProvider,
@@ -37,6 +38,16 @@ export class LoginPage {
     this.auth.login(this.user)
       .then(() => {
         this.affterLogin();
+      })
+      .catch(() => {
+        let toast = this.toastCtrl.create({
+          message: 'E-mail e/ou senha inválidos.',
+          duration: 3000,
+          position: 'button',
+          cssClass: 'toast-login-error'
+        });
+
+        toast.present();
       });
   }
 
