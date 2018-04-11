@@ -18,8 +18,10 @@ import { AuthProvider } from "../../providers/auth";
 })
 export class LoginPage {
 
-  email:string;
-  password:string;
+  user = {
+    email:'',
+    password:''
+  };
 
   constructor(
       public menu: MenuController,
@@ -27,22 +29,20 @@ export class LoginPage {
       public navParams: NavParams,
       private jwtClient: JwtClientProvider,
       private auth:AuthProvider,
-  ) {}
-
-  ionViewWilEnter() {
-    this.menu.swipeEnable(false);
-  }
-
-  ionViewDidLeave(){
-    this.menu.swipeEnable(true);
+  ) {
+    this.menu.enable(false);
   }
 
   login(){
-    /*this.jwtClient
-      .accessToken({email: this.email, password: this.password})
-      .then((token) => {
-        console.log(token)
-    });*/
+    this.auth.login(this.user)
+      .then(() => {
+        this.affterLogin();
+      });
+  }
+
+  affterLogin(){
+    this.menu.enable(true);
+    this.navCtrl.setRoot('HomePage');
   }
 
 }

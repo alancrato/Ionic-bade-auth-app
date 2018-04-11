@@ -50,4 +50,13 @@ export class MyApp {
     // navigate to the new page if it is not the current page
     this.nav.setRoot(page.component);
   }
+
+  logout(){
+    this.auth.logout().then(() => {
+      this.nav.setRoot('LoginPage');
+    }).catch(() => {
+      this.nav.setRoot('LoginPage');
+    })
+  }
+
 }

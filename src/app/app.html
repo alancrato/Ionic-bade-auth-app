@@ -17,6 +17,12 @@
     </ion-list>
   </ion-content>
 
+  <ion-footer>
+    <button menuClose ion-button text-right large color="light" block clear icon-right (click)="logout()">
+      Sair <ion-icon name="exit"></ion-icon>
+    </button>
+  </ion-footer>
+
 </ion-menu>
 
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

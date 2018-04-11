@@ -25,10 +25,27 @@ export class AuthProvider {
         resolve(this._user);
       }
       this.jwtClient.getPayload().then((payload:JwtPayload) => {
+        if(payload){
           this._user = payload.user;
-          resolve(this._user);
+        }
+        resolve(this._user);
       })
     });
+  }
+
+  login({email, password}): Promise<object>{
+    return this.jwtClient.accessToken({email, password})
+        .then(() => {
+            return this.user();
+        })
+  }
+
+  logout(){
+    return this.jwtClient
+      .revokeToken()
+      .then(() => {
+        this._user = null;
+      });
   }
 
 }
