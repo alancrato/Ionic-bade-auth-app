@@ -13,7 +13,9 @@ export class AuthProvider {
 
   private _user = null;
 
-  constructor(public jwtClient: JwtClientProvider) {
+  constructor(
+      public jwtClient: JwtClientProvider
+  ){
     this.user().then((user) => {
       console.log(user);
     });

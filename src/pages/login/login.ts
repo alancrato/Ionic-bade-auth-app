@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import {IonicPage, MenuController, NavController, NavParams, ToastController} from 'ionic-angular';
+import {IonicPage, MenuController, NavController, ToastController} from 'ionic-angular';
 import 'rxjs/add/operator/toPromise';
-import { JwtClientProvider } from "../../providers/jwt-client";
 import { AuthProvider } from "../../providers/auth";
 
 /**
@@ -27,9 +26,7 @@ export class LoginPage {
       public menu: MenuController,
       public navCtrl: NavController,
       public toastCtrl: ToastController,
-      public navParams: NavParams,
-      private jwtClient: JwtClientProvider,
-      private auth:AuthProvider,
+      private auth:AuthProvider
   ) {
     this.menu.enable(false);
   }
