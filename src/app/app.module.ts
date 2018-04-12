@@ -5,11 +5,14 @@ import { MyApp } from './app.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { HttpModule } from "@angular/http";
+import { Http, HttpModule } from "@angular/http";
 import { JwtClientProvider } from '../providers/jwt-client';
-import { IonicStorageModule } from "@ionic/storage";
-import { JwtHelper } from "angular2-jwt";
+import { IonicStorageModule, Storage } from "@ionic/storage";
+import { AuthConfig, AuthHttp, JwtHelper } from "angular2-jwt";
 import { AuthProvider } from '../providers/auth';
+import { ENV } from "../models/env";
+
+declare var ENV:ENV;
 
 @NgModule({
   declarations: [
@@ -31,9 +34,22 @@ import { AuthProvider } from '../providers/auth';
     StatusBar,
     SplashScreen,
     JwtHelper,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
     JwtClientProvider,
-    AuthProvider
+    AuthProvider,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    {
+      provide: AuthHttp,
+      deps: [Http, Storage],
+      useFactory(http,storage){
+        let authConfig = new AuthConfig({
+          headerPrefix: 'Bearer',
+          noJwtError: true,
+          noClientCheck: true,
+          tokenGetter: (() => storage.get(ENV.TOKEN_NAME))
+        });
+        return new AuthHttp(authConfig,http);
+      }
+    }
   ]
 })
 export class AppModule {}

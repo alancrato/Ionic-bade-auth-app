@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
 import { JwtCredentials } from "../models/jwt-credentials";
 import 'rxjs/add/operator/map';
-import { Response, Http, RequestOptions, Headers } from "@angular/http";
+import { Response, RequestOptions, Headers } from "@angular/http";
 import { Storage } from "@ionic/storage";
-import { JwtHelper } from "angular2-jwt";
+import { AuthHttp, JwtHelper } from "angular2-jwt";
+import { ENV } from "../models/env";
 
-/*
-  Generated class for the JwtClientProvider provider.
+declare var ENV:ENV;
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class JwtClientProvider {
 
@@ -18,7 +15,7 @@ export class JwtClientProvider {
   private _payload = null;
 
   constructor(
-      public http: Http,
+      public authHttp: AuthHttp,
       public storage: Storage,
       public jwtHelper: JwtHelper,
   ) {
@@ -47,7 +44,7 @@ export class JwtClientProvider {
          if(this._token){
             resolve(this._token);
          }
-          this.storage.get('token').then((token) => {
+          this.storage.get(ENV.TOKEN_NAME).then((token) => {
               this._token = token;
               resolve(this._token);
           });
@@ -55,7 +52,7 @@ export class JwtClientProvider {
   }
 
   accessToken(jwtCredentials: JwtCredentials): Promise<string>{
-    return this.http.post('http://localhost:8000/api/access_token', jwtCredentials)
+    return this.authHttp.post(`${ENV.API_URL}/access_token`, jwtCredentials)
         .toPromise()
         .then((response: Response) => {
           let token = response.json().token;
@@ -69,7 +66,7 @@ export class JwtClientProvider {
       let headers = new Headers();
       headers.set('Authorization', `Bearer ${this._token}`);
       let requestOptions = new RequestOptions({headers});
-      return this.http.post('http://localhost:8000/api/logout',{},requestOptions)
+      return this.authHttp.post(`${ENV.API_URL}/logout`,{},requestOptions)
           .toPromise()
           .then((response: Response) => {
               this._token = null;
