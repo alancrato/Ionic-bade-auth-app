@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Auth } from "../../decorators/auth.decorator";
+import { AuthHttp } from "angular2-jwt";
+import 'rxjs/add/operator/toPromise';
 
 /**
  * Generated class for the HomePage page.
@@ -22,20 +24,28 @@ export class HomePage {
 
   constructor(
       public navCtrl: NavController,
-      public navParams: NavParams
+      public navParams: NavParams,
+      public authHttp: AuthHttp
   )
   {}
 
   ionViewDidLoad() {
-    console.log('HomePage');
+      setInterval(() => {
+          this.authHttp.get('http://localhost:8000/api/user')
+              .toPromise()
+              .then(() => {
+                  console.log('primeira');
+              });
+          this.authHttp.get('http://localhost:8000/api/user')
+              .toPromise()
+              .then(() => {
+                  console.log('segunda');
+              });
+          this.authHttp.get('http://localhost:8000/api/user')
+              .toPromise()
+              .then(() => {
+                  console.log('terceira');
+              });
+      },60*1000+1);
   }
-
-  catP() {
-    if(this.catId == 1){
-      return this.catId;
-    }
-    return 'error';
-
-  }
-
 }

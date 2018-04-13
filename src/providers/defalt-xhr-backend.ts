@@ -1,8 +1,18 @@
 import { Injectable } from '@angular/core';
-import { BrowserXhr, Request, ResponseOptions, XHRBackend, XHRConnection, XSRFStrategy } from "@angular/http";
+import {
+    BrowserXhr, Request,
+    Response,
+    ResponseOptions,
+    XHRBackend,
+    XHRConnection,
+    XSRFStrategy
+} from "@angular/http";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {Observable} from "rxjs";
+import 'rxjs/add/observable/throw';
+import { appContainer } from "../app/app.container";
+import { JwtClientProvider } from "./jwt-client";
+import { Observable } from "rxjs";
 
 /*
   Generated class for the DefaultXHRBackend provider.
@@ -14,7 +24,10 @@ import {Observable} from "rxjs";
 @Injectable()
 export class DefaultXHRBackend extends XHRBackend{
 
-  constructor(browserXHR: BrowserXhr, baseResponseOptions: ResponseOptions, xsrfStrategy: XSRFStrategy) {
+  constructor(
+      browserXHR: BrowserXhr,
+      baseResponseOptions: ResponseOptions,
+      xsrfStrategy: XSRFStrategy) {
     super(browserXHR, baseResponseOptions, xsrfStrategy);
   }
 
@@ -23,14 +36,22 @@ export class DefaultXHRBackend extends XHRBackend{
     xhrConnection.response = xhrConnection
         .response
         .map((response) => {
-          //salva o token
+          this.tokenSetter(response);
           return response;
-        })
-        .catch(responseError => {
-          //verifica se o status  401 e redireciona para o login
-          return Observable.throw(responseError);
+        }).catch(responseError => {
+            return Observable.throw(responseError);
         });
     return xhrConnection;
+  }
+
+  tokenSetter(response: Response){
+      let jwtClient = appContainer().get(JwtClientProvider);
+      if(response.headers.has('Authorization')){
+          let authorization = response.headers.get('Authorization');
+          let token = authorization.replace('Bearer ', '');
+          jwtClient.setToken(token);
+
+      }
   }
 
 }
