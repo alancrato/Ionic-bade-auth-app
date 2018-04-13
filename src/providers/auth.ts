@@ -8,6 +8,7 @@ import { JwtPayload } from "../models/jwt-payload";
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
+
 @Injectable()
 export class AuthProvider {
 
@@ -33,6 +34,12 @@ export class AuthProvider {
         resolve(this._user);
       })
     });
+  }
+
+  check():Promise<boolean>{
+        return this.user().then(user => {
+          return user !== null;
+        })
   }
 
   login({email, password}): Promise<object>{

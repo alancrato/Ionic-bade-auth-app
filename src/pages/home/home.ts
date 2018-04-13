@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Auth } from "../../decorators/auth.decorator";
 
 /**
  * Generated class for the HomePage page.
@@ -13,6 +14,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   selector: 'page-home',
   templateUrl: 'home.html',
 })
+
+@Auth()
 export class HomePage {
 
   catId: any = 1;

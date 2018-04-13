@@ -53,4 +53,8 @@ export class LoginPage {
     this.navCtrl.setRoot('HomePage');
   }
 
+  pushHome(){
+    this.navCtrl.setRoot('HomePage');
+  }
+
 }
