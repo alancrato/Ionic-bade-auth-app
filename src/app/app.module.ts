@@ -5,12 +5,13 @@ import { MyApp } from './app.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Http, HttpModule } from "@angular/http";
+import {Http, HttpModule, XHRBackend} from "@angular/http";
 import { JwtClientProvider } from '../providers/jwt-client';
 import { IonicStorageModule, Storage } from "@ionic/storage";
 import { AuthConfig, AuthHttp, JwtHelper } from "angular2-jwt";
 import { AuthProvider } from '../providers/auth';
 import { ENV } from "../models/env";
+import { DefaultXHRBackend } from '../providers/defalt-xhr-backend';
 
 declare var ENV:ENV;
 
@@ -49,7 +50,8 @@ declare var ENV:ENV;
         });
         return new AuthHttp(authConfig,http);
       }
-    }
+    },
+    {provide: XHRBackend, useClass: DefaultXHRBackend}
   ]
 })
 export class AppModule {}
