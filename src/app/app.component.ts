@@ -5,6 +5,7 @@ import { Platform, MenuController, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthProvider } from "../providers/auth";
+import { Redirector } from "../providers/redirector";
 
 @Component({
   templateUrl: 'app.html'
@@ -21,7 +22,8 @@ export class MyApp {
     public menu: MenuController,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    public auth:AuthProvider
+    public auth:AuthProvider,
+    public redirector: Redirector
   ) {
     this.initializeApp();
 
@@ -42,6 +44,10 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  ngAfterViewInit(){
+    this.redirector.config(this.nav);
   }
 
   openPage(page) {

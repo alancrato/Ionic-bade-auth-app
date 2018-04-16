@@ -12,6 +12,7 @@ import { AuthConfig, AuthHttp, JwtHelper } from "angular2-jwt";
 import { AuthProvider } from '../providers/auth';
 import { ENV } from "../models/env";
 import { DefaultXHRBackend } from '../providers/defalt-xhr-backend';
+import { Redirector } from '../providers/redirector';
 
 declare var ENV:ENV;
 
@@ -37,6 +38,7 @@ declare var ENV:ENV;
     JwtHelper,
     JwtClientProvider,
     AuthProvider,
+    Redirector,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {
       provide: AuthHttp,
@@ -51,7 +53,7 @@ declare var ENV:ENV;
         return new AuthHttp(authConfig,http);
       }
     },
-    {provide: XHRBackend, useClass: DefaultXHRBackend}
+    {provide: XHRBackend, useClass: DefaultXHRBackend},
   ]
 })
 export class AppModule {}

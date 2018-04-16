@@ -13,6 +13,7 @@ import 'rxjs/add/observable/throw';
 import { appContainer } from "../app/app.container";
 import { JwtClientProvider } from "./jwt-client";
 import { Observable } from "rxjs";
+import {Redirector} from "./redirector";
 
 /*
   Generated class for the DefaultXHRBackend provider.
@@ -33,12 +34,14 @@ export class DefaultXHRBackend extends XHRBackend{
 
   createConnection(request: Request): XHRConnection {
     let xhrConnection = super.createConnection(request);
-    xhrConnection.response = xhrConnection
+    //noinspection TypeScriptUnresolvedFunction
+      xhrConnection.response = xhrConnection
         .response
         .map((response) => {
           this.tokenSetter(response);
           return response;
         }).catch(responseError => {
+            this.unauthenticated(responseError);
             return Observable.throw(responseError);
         });
     return xhrConnection;
@@ -52,6 +55,14 @@ export class DefaultXHRBackend extends XHRBackend{
           jwtClient.setToken(token);
 
       }
+  }
+
+  unauthenticated(responseError: Response){
+      let redirector = appContainer().get(Redirector);
+      if(responseError.status === 401){
+            redirector.redirector();
+      }
+
   }
 
 }
